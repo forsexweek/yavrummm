@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAVVRUMMMM BENIMMM</title>
+    <style>
+        :root {
+            --kirmizi: #ff4d6d;
+            --lale-beyaz: #ffffff;
+            --lale-sap: #7fb069;
+            --pembe: #fff0f3;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background: var(--pembe);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
+            text-align: center;
+        }
+
+        /* --- LALE YAĞMURU --- */
+        .lale {
+            position: absolute; z-index: 1; pointer-events: none;
+            animation: dusme linear infinite;
+        }
+        .lale-kafa {
+            width: 15px; height: 20px; background: white;
+            border-radius: 50% 50% 10% 10%; position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .lale-sap {
+            width: 2px; height: 25px; background: var(--lale-sap);
+            margin: 0 auto;
+        }
+
+        @keyframes dusme {
+            0% { transform: translateY(-110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.5; }
+        }
+
+        /* --- ANA PENCERE --- */
+        #kutu {
+            background: white; padding: 30px; border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            z-index: 10; width: 340px; position: relative;
+        }
+
+        .sahne {
+            height: 220px; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 10px;
+        }
+
+        .kiz-figuru img {
+            width: 110px; height: 110px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 4px solid var(--kirmizi);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            transition: transform 0.5s;
+        }
+
+        .pasta-kutu {
+            position: relative; transition: all 0.5s;
+        }
+
+        .pasta-emoji { font-size: 60px; }
+
+        .alev {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            width: 10px; height: 14px; background: orange;
+            border-radius: 50% 50% 20% 20%; box-shadow: 0 0 10px yellow;
+            animation: titre 0.2s infinite;
+        }
+
+        @keyframes titre { to { transform: translateX(-50%) scale(1.2); opacity: 0.8; } }
+
+        .btn {
+            background: var(--kirmizi); color: white; border: none;
+            padding: 12px 30px; border-radius: 50px; font-weight: bold;
+            cursor: pointer; margin-top: 20px; transition: 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); }
+
+        #mektup {
+            display: none; border: 2px dashed var(--kirmizi);
+            padding: 15px; border-radius: 10px; margin-top: 20px;
+            background: #fffafa; animation: acilis 0.8s ease;
+        }
+        @keyframes acilis { from { opacity: 0; transform: scale(0.5); } }
+
+        .gizli { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="kutu">
+        <div id="baslangic">
+            <h2 style="color: var(--kirmizi);">YAVVRUMMM🤍🤍🤍</h2>
+            <p>BUGUN BEBBEGIMIN DOGUM GUNUUUU HEDIYENE HAZIR MISIINNNN</p>
+            <button class="btn" onclick="baslat()">EVVEVETT HAZIRIIMM✨</button>
+        </div>
+
+        <div id="aksiyon" class="gizli">
+            <div class="sahne">
+                <div id="kiz" class="kiz-figuru">
+                    <img src="foto.JPG" alt="Bebeğim">
+                </div> 
+                
+                <div id="pasta-alanı" class="pasta-kutu">
+                    <div id="mum-alev" class="alev"></div>
+                    <div class="pasta-emoji">🎂</div>
+                </div>
+            </div>
+            <h3 id="durum" style="color: var(--kirmizi);">DİLEK TUT BEBEGIMMM</h3>
+
+            <div id="mektup">
+                <p> <b>DOGUM GUNU NOTUNN:</b><br><br>
+                "DOGUMMMM GUUUNNNN KUTLU OLSUNN EBBEGIMMM SENI COK AMA COKKKK SEVIYORUMMM GULUSUNNN VARYA BENI BENDEN ALIYOR O GOZLERIN ASKLA BAKIYOR YA COK HOSUMA GİDİYOR SONSUZA KADAR BENIMLE BERABER SAPSALLIK YAPARIZZZZ <br><br> <span style="color:var(--kirmizi)">#bittim gözlerine</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function laleYap() {
+            const d = document.createElement('div');
+            d.className = 'lale';
+            d.innerHTML = '<div class="lale-kafa"></div><div class="lale-sap"></div>';
+            d.style.left = Math.random() * 100 + "vw";
+            d.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 5000);
+        }
+        setInterval(laleYap, 150);
+
+        async function mikrofonuDinle() {
+            try {
+                // Mikrofon erişimi iste
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(stream);
+                
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                
+                microphone.connect(analyser);
+
+                function sesKontrol() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < bufferLength; i++) {
+                        sum += dataArray[i];
+                    }
+                    let average = sum / bufferLength;
+
+                    // Eğer ses seviyesi 50'den büyükse (üfleme algılandıysa)
+                    if (average > 50) {
+                        mumuBitir();
+                        // Mikrofonu kapat
+                        stream.getTracks().forEach(track => track.stop());
+                    } else {
+                        requestAnimationFrame(sesKontrol);
+                    }
+                }
+                sesKontrol();
+            } catch (err) {
+                console.warn("Mikrofon izni verilmedi, 3 saniye sonra otomatik sönüyor...");
+                setTimeout(mumuBitir, 3500);
+            }
+        }
+
+        function mumuBitir() {
+            const alev = document.getElementById('mum-alev');
+            const durum = document.getElementById('durum');
+            const kizResim = document.querySelector('.kiz-figuru img');
+            const mektup = document.getElementById('mektup');
+            const pastaAlani = document.getElementById('pasta-alanı');
+
+            // Mum söner
+            alev.style.display = 'none';
+            durum.innerText = "DILEGINNN KABULL OLUR UMARIMM BEBEBGIMM";
+            kizResim.style.transform = "translateY(0) scale(1.15)";
+
+            // Kısa bir beklemeden sonra mektup açılır
+            setTimeout(() => {
+                pastaAlani.style.transform = "scale(0)";
+                setTimeout(() => {
+                    pastaAlani.classList.add('gizli');
+                    mektup.style.display = 'block';
+                    durum.innerText = "SANA Bİ MESAJ VARRRR";
+                    setInterval(laleYap, 50); // Yoğun lale yağmuru
+                }, 500);
+            }, 2000);
+        }
+
+        function baslat() {
+            document.getElementById('baslangic').classList.add('gizli');
+            document.getElementById('aksiyon').classList.remove('gizli');
+            
+            const kizResim = document.querySelector('.kiz-figuru img');
+            const durum = document.getElementById('durum');
+
+            // Resim eğilir ve mikrofon dinleme başlar
+            setTimeout(() => {
+                kizResim.style.transform = "translateY(25px) scale(1.05)";
+                durum.innerText = "SİMMMDİ GÜÇLÜCE UFFLLEEE! 🎤";
+                mikrofonuDinle();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
