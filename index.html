@@ -160,7 +160,7 @@
                     let average = sum / bufferLength;
 
                     // Eğer ses seviyesi 50'den büyükse (üfleme algılandıysa)
-                    if (average > 100) {
+                    if (average > 70) {
                         mumuBitir();
                         // Mikrofonu kapat
                         stream.getTracks().forEach(track => track.stop());
@@ -216,4 +216,5 @@
     </script>
 </body>
 </html>
+
 
